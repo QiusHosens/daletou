@@ -1,4 +1,4 @@
-import table
+﻿import table
 
 #变卦
 def change_gua(num, change):
