@@ -1,6 +1,6 @@
-﻿import table
+# -*- coding: utf-8 -*
+import table
 
-#变卦
 def change_gua(num, change):
 	if change == 0:
 		if num % 2 == 0:
@@ -27,21 +27,33 @@ def cal(date, number):
 	up = (year + month + day + number) % 8
 	change = (year + month + day + number) % 6
 	gua = table.gua[down][up]
+	gua_order = table.order[down][up]
 	if change < 3:
 		down = change_gua(down, change)
 	else:
 		up = change_gua(up, change % 3)
 	gua_after_change = table.gua[down][up]
-	return (gua + "  " if len(gua) == 3 else gua) + "  " + gua_after_change
+	gua_after_change_order = table.order[down][up]
+	return str(gua_order).ljust(4, ' ') + str(gua_after_change_order).ljust(4, ' ') + (gua + "  " if len(gua) == 3 else gua) + "  " + gua_after_change
 
 if __name__ == '__main__':
-	file = open("number.txt")
+	file = open('number.txt')
+	newFile = open('gua.txt', 'w')
+	newFile.truncate()
 	try:
-		for line in file:
-			contents = line.split(",")
+		contentList = file.readlines()
+		for line in contentList:
+			line = line.replace('\r', '').replace('\n', '')
+			contents = line.split(',')
+			print contents
+			if not contents:
+				break
 			number = contents[0]
 			date = contents[1]
 			result = cal(date, number)
+			newFile.write(line + ',' + result)
+			newFile.write('\n')
 			print result
 	finally:
 		file.close()
+		newFile.close()
