@@ -28,13 +28,20 @@ def cal(date, number):
 	change = (year + month + day + number) % 6
 	gua = table.gua[down][up]
 	gua_order = table.order[down][up]
+	oldDown = down
+	oldUp = up
 	if change < 3:
 		down = change_gua(down, change)
 	else:
 		up = change_gua(up, change % 3)
 	gua_after_change = table.gua[down][up]
 	gua_after_change_order = table.order[down][up]
-	return str(gua_order).ljust(4, ' ') + str(gua_after_change_order).ljust(4, ' ') + (gua + "  " if len(gua) == 3 else gua) + "  " + gua_after_change
+	
+	oldDown = 8 if oldDown == 0 else oldDown
+	oldUp = 8 if oldUp == 0 else oldUp
+	down = 8 if down == 0 else down
+	up = 8 if up == 0 else up
+	return str(oldDown).ljust(4, ' ') + str(oldUp).ljust(4, ' ') + str(down).ljust(4, ' ') + str(up).ljust(4, ' ') + str(gua_order).ljust(4, ' ') + str(gua_after_change_order).ljust(4, ' ') + (gua + "  " if len(gua) == 3 else gua) + "  " + gua_after_change
 
 if __name__ == '__main__':
 	file = open('number.txt')
